@@ -87,11 +87,13 @@ export default function Chart(props) {
     }
 
     return(
-        <svg width={width} height={height}>
-            <Content />
-            <XAxis />
-            <YAxis />
-            <Legend/>
-        </svg>
+        <div>
+            <svg viewBox={`0 0 ${width} ${height}`}>
+                <Content />
+                <XAxis />
+                <YAxis />
+                <Legend/>
+            </svg>
+        </div>
     );
 }
