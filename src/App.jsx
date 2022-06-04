@@ -4,8 +4,9 @@ import Form from "./Form";
 import Chart from './Chart';
 
 export default function App() {
+    const url = "https://assets.codepen.io/2004014/iris.json";
     const svgWidth = 600, svgHeight = 500;
-    const data = Presenter();
+    const data = Presenter(url);
     const [xProperty, setXProperty] = useState(null);
     const [yProperty, setYProperty] = useState(null);
 

@@ -10,8 +10,7 @@ export function Test() {
     );
 }
 
-export default function Presenter() {
-    const url = "https://assets.codepen.io/2004014/iris.json";
+export default function Presenter(url) {
     const [data, setData] = useState(null);
     useEffect( () => {
         fetchDataJson((j) => {setData(j)}, url);

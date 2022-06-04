@@ -4,9 +4,9 @@ export default function Chart(props) {
     //todo data,xProperty,yPropertyを受け取ってチャートを描画する
     const {data, xProperty, yProperty, svgWidth:width, svgHeight:height} = props;
     const marginX = 50, marginY = 50, circleSize = 5, tickMarkLength = 10, tickTextSpace = 5, 
-    legendSpace = 100, legendRectSize = 20, legendMargin = 10;
+    legendSpace = 110, legendRectSize = 20, legendMargin = 20, legendRectmargin = legendMargin * 1.5, legendTextMargin = 5;
 
-    const contentWidth = width - (marginX * 2) - legendSpace, contentHeight = height - (marginY * 2);
+    const contentWidth = width - (marginX + legendMargin) - legendSpace, contentHeight = height - (marginY * 2);
     
     const species = Array.from(new Set(data.map(({ species }) => species)));
     const col = d3.scaleOrdinal(d3.schemeCategory10);
@@ -71,13 +71,13 @@ export default function Chart(props) {
 
     function Legend() {
         return (
-            <g transform={`translate(${contentWidth + (marginX * 2)} ${marginY})`}>
+            <g transform={`translate(${contentWidth + (marginX + legendMargin)} ${marginY})`}>
                 {
                     species.map( (item, index) => {
                         return (
                             <g key={item}>
-                                <rect x={0} y={index * (legendRectSize + legendMargin)} width={legendRectSize} height={legendRectSize} fill={col(item)}/>
-                                <text x={legendRectSize + legendMargin} y={index * (legendRectSize + legendMargin) + (legendRectSize / 2)} textAnchor="start" dominantBaseline="middle">{item}</text>
+                                <rect x={0} y={index * legendRectmargin} width={legendRectSize} height={legendRectSize} fill={col(item)}/>
+                                <text x={legendRectSize + legendTextMargin} y={index * legendRectmargin + (legendRectSize / 2)} textAnchor="start" dominantBaseline="middle">{item}</text>
                             </g>
                         ) 
                     })
