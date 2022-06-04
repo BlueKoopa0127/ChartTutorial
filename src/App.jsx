@@ -28,6 +28,7 @@ export default function App() {
         <div style={{backgroundColor : "white"}}>
             <Form keys={keys} xProperty={xProperty} setXProperty={setXProperty} yProperty={yProperty} setYProperty={setYProperty} />
             <Chart data={data} xProperty={xProperty} yProperty={yProperty} svgWidth={svgWidth} svgHeight={svgHeight}/>
+            <Title />
         </div>
     );
 }
@@ -47,5 +48,17 @@ function Loading() {
         <div>
             Loading...
         </div>
+    );
+}
+
+function Title() {
+    return(
+        <section className="hero is-info">
+            <div className="hero-body">
+                <div className="container is-max-desktop">
+                    <p className="title">Title</p>
+                </div>
+            </div>
+        </section>
     );
 }
