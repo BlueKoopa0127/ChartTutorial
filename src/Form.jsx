@@ -1,15 +1,32 @@
-export default function Form(props) {
+import "bulma/css/bulma.css";
+
+export default function Forms(props) {
     const {keys, xProperty, setXProperty, yProperty, setYProperty} = props;
     return (
         <div>
-            <div>x property</div>
-            <Select callback={setXProperty} keys={keys} defaultSelect={xProperty} />
-            
-            <div>y property</div>
-            <Select callback={setYProperty} keys={keys} select={yProperty} />
+            <form>
+                <Form labelName="x property" property={xProperty} setProerty={setXProperty}/>
+                <Form labelName="y property" property={yProperty} setProerty={setYProperty}/>
+            </form>
         </div>
     );
+
+    function Form(props) {
+        const {labelName, property, setProerty} = props;
+        return(
+            <div className="field">
+                <label className="label">{labelName}</label>
+                <div className="control">
+                    <div className="select is-fullwidth">
+                        <Select callback={setProerty} keys={keys} select={property} />
+                    </div>
+                </div>
+            </div>
+        );
+    }
 }
+
+
 
 function Select(props) {
     const {callback, keys, select} = props;

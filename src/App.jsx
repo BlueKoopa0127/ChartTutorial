@@ -1,6 +1,6 @@
 import {useState } from "react";
 import Presenter from './Presenter';
-import Form from "./Form";
+import Forms from "./Form";
 import Chart from './Chart';
 
 export default function App() {
@@ -26,9 +26,13 @@ export default function App() {
     
     return(
         <div style={{backgroundColor : "white"}}>
-            <Form keys={keys} xProperty={xProperty} setXProperty={setXProperty} yProperty={yProperty} setYProperty={setYProperty} />
-            <Chart data={data} xProperty={xProperty} yProperty={yProperty} svgWidth={svgWidth} svgHeight={svgHeight}/>
             <Title />
+            <section className="section">
+                <div className="container is-max-desktop">
+                    <Forms keys={keys} xProperty={xProperty} setXProperty={setXProperty} yProperty={yProperty} setYProperty={setYProperty} />
+                    <Chart data={data} xProperty={xProperty} yProperty={yProperty} svgWidth={svgWidth} svgHeight={svgHeight}/>
+                </div>
+            </section>
         </div>
     );
 }
