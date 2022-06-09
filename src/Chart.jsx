@@ -79,21 +79,6 @@ export default function Chart(props) {
     return(
         <div>
             <svg viewBox={`0 0 ${width} ${height}`}>
-            <g transform={`translate(${marginX} ${marginY})`}>
-            {
-                data.map( (item, index) => {
-                    return <circle 
-                    key={index} 
-                    //cx={xScale(item[xProperty])} 
-                    //cy={yScale(item[yProperty])} 
-                    transform={`translate(${xScale(item[xProperty])}, ${yScale(item[yProperty])})`}
-                    r={circleSize} 
-                    fill={col(item.species)}
-                    style={{ transition: "transform 0.5s" }}
-                    />
-                })
-            }
-        </g>
                 <Content
                   data = {data}
                   marginX = {marginX}
