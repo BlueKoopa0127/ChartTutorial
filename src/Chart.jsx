@@ -21,17 +21,7 @@ export default function Chart(props) {
     const xTicks = xScale.ticks();
     const yTicks = yScale.ticks();
 
-    function Content() {
-        return (
-            <g transform={`translate(${marginX} ${marginY})`}>
-                {
-                    data.map( (item, index) => {
-                        return <circle key={index} cx={xScale(item[xProperty])} cy={yScale(item[yProperty])} r={circleSize} fill={col(item.species)}/>
-                    })
-                }
-            </g>
-        );
-    }
+    
 
     function XAxis() {
         return(
@@ -89,11 +79,57 @@ export default function Chart(props) {
     return(
         <div>
             <svg viewBox={`0 0 ${width} ${height}`}>
-                <Content />
+            <g transform={`translate(${marginX} ${marginY})`}>
+            {
+                data.map( (item, index) => {
+                    return <circle 
+                    key={index} 
+                    //cx={xScale(item[xProperty])} 
+                    //cy={yScale(item[yProperty])} 
+                    transform={`translate(${xScale(item[xProperty])}, ${yScale(item[yProperty])})`}
+                    r={circleSize} 
+                    fill={col(item.species)}
+                    style={{ transition: "transform 0.5s" }}
+                    />
+                })
+            }
+        </g>
+                <Content
+                  data = {data}
+                  marginX = {marginX}
+                  marginY = {marginY}
+                  xScale = {xScale}
+                  yScale = {yScale}
+                  xProperty = {xProperty}
+                  yProperty = {yProperty}
+                  circleSize = {circleSize}
+                  col = {col}
+                />
                 <XAxis />
                 <YAxis />
                 <Legend/>
             </svg>
         </div>
+    );
+}
+
+function Content(props) {
+    const {data, marginX, marginY, xScale, yScale, xProperty, yProperty, circleSize, col} = props; 
+    return (
+        <g transform={`translate(${marginX} ${marginY})`}>
+            {
+                data.map( (item, index) => {
+                    return <circle 
+                    key={index} 
+                    //cx={xScale(item[xProperty])} 
+                    //cy={yScale(item[yProperty])} 
+                    transform={`translate(${xScale(item[xProperty])}, ${yScale(item[yProperty])})`}
+                    r={circleSize} 
+                    fill={col(item.species)}
+                    style={{ transition: "transform 0.5s" }}
+                    />
+                })
+            }
+        </g>
     );
 }

@@ -66,3 +66,29 @@ function Title() {
         </section>
     );
 }
+
+export function Example() {
+    const [x, setX] = useState(100);
+    return (
+      <div>
+        <div>
+          <button
+            onClick={() => {
+              setX((x + 200) % 400);
+            }}
+          >
+            click me
+          </button>
+        </div>
+        <div>
+          <svg width="400" height="400">
+            <circle
+              transform={`translate(${x},200)`}
+              r="50"
+              style={{ transition: "transform 0.5s" }}
+            />
+          </svg>
+        </div>
+      </div>
+    );
+  }
