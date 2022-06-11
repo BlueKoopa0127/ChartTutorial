@@ -22,6 +22,7 @@ export default function Chart(props) {
     legendTextMargin = 5;
 
   const [shows, setShows] = useState([1, 1, 1]);
+  const [showCoordinate, setShowCoordinate] = useState(null);
 
   const contentWidth = width - (marginX + legendMargin) - legendSpace,
     contentHeight = height - marginY * 2;
@@ -59,6 +60,7 @@ export default function Chart(props) {
             yProperty,
             circleSize,
             col,
+            setShowCoordinate,
           }}
         />
         <XAxis
@@ -99,6 +101,16 @@ export default function Chart(props) {
             legendTextMargin,
           }}
         />
+        {/*<ShowCoordinate
+          {...{
+            marginX,
+            marginY,
+            showCoordinate,
+            xScale,
+            yScale,
+            circleSize,
+          }}
+        />*/}
       </svg>
     </div>
   );
@@ -115,21 +127,58 @@ function Content(props) {
             })
           ];
         return (
-          <circle
+          <g
             key={index}
             transform={`translate(${props.xScale(
               item[props.xProperty]
             )}, ${props.yScale(item[props.yProperty])})`}
-            r={props.circleSize}
-            fill={props.col(item.species)}
-            opacity={isShow === 1 ? 1 : 0}
-            style={{
-              transitionProperty: "transform, opacity",
-              transitionDuration: "0.5s, 0.5s",
-            }}
-          />
+          >
+            <circle
+              r={props.circleSize}
+              fill={props.col(item.species)}
+              opacity={isShow === 1 ? 1 : 0}
+              style={{
+                //cursor: "pointer",
+                transitionProperty: "transform, opacity",
+                transitionDuration: "0.5s, 0.5s",
+              }}
+              onMouseOver={() => {
+                props.setShowCoordinate({
+                  x: item[props.xProperty],
+                  y: item[props.yProperty],
+                });
+                /*console.log(
+                  `(${item[props.xProperty]}, ${item[props.yProperty]})`
+                );*/
+              }}
+              onMouseLeave={() => {
+                props.setShowCoordinate(null);
+                /*console.log(
+                  `Leave:(${item[props.xProperty]}, ${item[props.yProperty]})`
+                );*/
+              }}
+            />
+          </g>
         );
       })}
+    </g>
+  );
+}
+
+function ShowCoordinate(props) {
+  if (props.showCoordinate === null) {
+    return <div></div>;
+  }
+
+  return (
+    <g transform={`translate(${props.marginX}, ${props.marginY})`}>
+      <text
+        transform={`translate(${props.xScale(props.showCoordinate.x)}, ${
+          props.yScale(props.showCoordinate.y) - props.circleSize * 2
+        })`}
+        textAnchor="middle"
+        dominantBaseline="auto"
+      >{`(${props.showCoordinate.x}, ${props.showCoordinate.y})`}</text>
     </g>
   );
 }
