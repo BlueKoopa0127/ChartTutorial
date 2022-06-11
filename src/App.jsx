@@ -27,23 +27,28 @@ export default function App() {
 
   return (
     <div style={{ backgroundColor: "white" }}>
-      <Title />
+      <Title titleName="Title" />
+
       <section className="section">
         <div className="container is-max-desktop">
           <Forms
-            keys={keys}
-            xProperty={xProperty}
-            setXProperty={setXProperty}
-            yProperty={yProperty}
-            setYProperty={setYProperty}
+            {...{
+              keys,
+              xProperty,
+              setXProperty,
+              yProperty,
+              setYProperty,
+            }}
           />
           <Chart
-            data={data}
-            keys={keys}
-            xProperty={xProperty}
-            yProperty={yProperty}
-            svgWidth={svgWidth}
-            svgHeight={svgHeight}
+            {...{
+              data,
+              keys,
+              xProperty,
+              yProperty,
+              svgWidth,
+              svgHeight,
+            }}
           />
         </div>
       </section>
@@ -51,8 +56,8 @@ export default function App() {
   );
 }
 
-function getAttributes(props) {
-  const k = Object.keys(props[0]);
+function getAttributes(data) {
+  const k = Object.keys(data[0]);
   k.map((item, index) => {
     if (item == "species") {
       delete k[index];
@@ -65,12 +70,12 @@ function Loading() {
   return <div>Loading...</div>;
 }
 
-function Title() {
+function Title(props) {
   return (
     <section className="hero is-info">
       <div className="hero-body">
         <div className="container is-max-desktop">
-          <p className="title">Title</p>
+          <p className="title">{props.titleName}</p>
         </div>
       </div>
     </section>

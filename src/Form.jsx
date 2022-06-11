@@ -1,44 +1,50 @@
 import "bulma/css/bulma.css";
 
 export default function Forms(props) {
-  const { keys, xProperty, setXProperty, yProperty, setYProperty } = props;
   return (
     <div>
       <form>
         <Form
           labelName="x property"
-          property={xProperty}
-          setProerty={setXProperty}
+          keys={props.keys}
+          property={props.xProperty}
+          setProerty={props.setXProperty}
         />
         <Form
           labelName="y property"
-          property={yProperty}
-          setProerty={setYProperty}
+          keys={props.keys}
+          property={props.yProperty}
+          setProerty={props.setYProperty}
         />
       </form>
     </div>
   );
+}
 
-  function Form(props) {
-    const { labelName, property, setProerty } = props;
-    return (
-      <div className="field">
-        <label className="label">{labelName}</label>
-        <div className="control">
-          <div className="select is-fullwidth">
-            <Select callback={setProerty} keys={keys} select={property} />
-          </div>
+function Form(props) {
+  return (
+    <div className="field">
+      <label className="label">{props.labelName}</label>
+      <div className="control">
+        <div className="select is-fullwidth">
+          <Select
+            callback={props.setProerty}
+            keys={props.keys}
+            select={props.property}
+          />
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
 function Select(props) {
-  const { callback, keys, select } = props;
   return (
-    <select value={select} onChange={(event) => callback(event.target.value)}>
-      {keys.map((item) => {
+    <select
+      value={props.select}
+      onChange={(event) => props.callback(event.target.value)}
+    >
+      {props.keys.map((item) => {
         return <option key={item}>{item}</option>;
       })}
     </select>

@@ -1,5 +1,4 @@
 import * as d3 from "d3";
-import { pointer } from "d3";
 import { useState } from "react";
 
 export default function Chart(props) {
@@ -44,112 +43,11 @@ export default function Chart(props) {
   const xTicks = xScale.ticks();
   const yTicks = yScale.ticks();
 
-  function XAxis() {
-    return (
-      <g transform={`translate(${marginX} ${contentHeight + marginY})`}>
-        <line x1={0} y1={0} x2={contentWidth} y2={0} stroke="black" />
-        {xTicks.map((item) => {
-          return (
-            <g key={item}>
-              <line
-                x1={xScale(item)}
-                y1={0}
-                x2={xScale(item)}
-                y2={tickMarkLength}
-                stroke="black"
-              />
-              <text
-                x={xScale(item)}
-                y={tickMarkLength + tickTextSpace}
-                textAnchor="middle"
-                dominantBaseline="hanging"
-              >
-                {item}
-              </text>
-            </g>
-          );
-        })}
-      </g>
-    );
-  }
-
-  function YAxis() {
-    return (
-      <g transform={`translate(${marginX} ${marginY})`}>
-        <line x1={0} y1={0} x2={0} y2={contentHeight} stroke="black" />
-        {yTicks.map((item) => {
-          return (
-            <g key={item}>
-              <line
-                x1={0}
-                y1={yScale(item)}
-                x2={-tickMarkLength}
-                y2={yScale(item)}
-                stroke="black"
-              />
-              <text
-                x={-tickMarkLength - tickTextSpace}
-                y={yScale(item)}
-                textAnchor="end"
-                dominantBaseline="central"
-              >
-                {item}
-              </text>
-            </g>
-          );
-        })}
-      </g>
-    );
-  }
-
-  function Legend() {
-    return (
-      <g
-        transform={`translate(${
-          contentWidth + (marginX + legendMargin)
-        } ${marginY})`}
-      >
-        {species.map((item, index) => {
-          return (
-            <g
-              key={item}
-              opacity={shows[index] === 1 ? 1 : 0.5}
-              onClick={() => {
-                setShows(
-                  shows.map((show, i) => {
-                    return i === index ? show * -1 : show;
-                  })
-                );
-              }}
-              style={{ cursor: "pointer" }}
-            >
-              <rect
-                x={0}
-                y={index * legendRectmargin}
-                width={legendRectSize}
-                height={legendRectSize}
-                fill={col(item)}
-              />
-              <text
-                x={legendRectSize + legendTextMargin}
-                y={index * legendRectmargin + legendRectSize / 2}
-                textAnchor="start"
-                dominantBaseline="middle"
-              >
-                {item}
-              </text>
-            </g>
-          );
-        })}
-      </g>
-    );
-  }
-
   return (
     <div>
       <svg viewBox={`0 0 ${width} ${height}`}>
         <Content
-          obj={{
+          {...{
             data,
             species,
             shows,
@@ -163,39 +61,178 @@ export default function Chart(props) {
             col,
           }}
         />
-        <XAxis />
-        <YAxis />
-        <Legend />
+        <XAxis
+          {...{
+            marginX,
+            marginY,
+            contentWidth,
+            contentHeight,
+            xTicks,
+            xScale,
+            tickMarkLength,
+            tickTextSpace,
+          }}
+        />
+        <YAxis
+          {...{
+            marginX,
+            marginY,
+            contentHeight,
+            yTicks,
+            yScale,
+            tickMarkLength,
+            tickTextSpace,
+          }}
+        />
+        <Legend
+          {...{
+            species,
+            shows,
+            setShows,
+            col,
+            marginX,
+            marginY,
+            contentWidth,
+            legendMargin,
+            legendRectmargin,
+            legendRectSize,
+            legendTextMargin,
+          }}
+        />
       </svg>
     </div>
   );
 }
 
 function Content(props) {
-  const o = props.obj;
   return (
-    <g transform={`translate(${o.marginX} ${o.marginY})`}>
-      {o.data.map((item, index) => {
+    <g transform={`translate(${props.marginX} ${props.marginY})`}>
+      {props.data.map((item, index) => {
         const isShow =
-          o.shows[
-            o.species.findIndex((i) => {
+          props.shows[
+            props.species.findIndex((i) => {
               return i === item.species;
             })
           ];
         return (
           <circle
             key={index}
-            transform={`translate(${o.xScale(item[o.xProperty])}, ${o.yScale(
-              item[o.yProperty]
-            )})`}
-            r={o.circleSize}
-            fill={o.col(item.species)}
+            transform={`translate(${props.xScale(
+              item[props.xProperty]
+            )}, ${props.yScale(item[props.yProperty])})`}
+            r={props.circleSize}
+            fill={props.col(item.species)}
             opacity={isShow === 1 ? 1 : 0}
             style={{
               transitionProperty: "transform, opacity",
               transitionDuration: "0.5s, 0.5s",
             }}
           />
+        );
+      })}
+    </g>
+  );
+}
+
+function XAxis(props) {
+  return (
+    <g
+      transform={`translate(${props.marginX} ${
+        props.contentHeight + props.marginY
+      })`}
+    >
+      <line x1={0} y1={0} x2={props.contentWidth} y2={0} stroke="black" />
+      {props.xTicks.map((item) => {
+        return (
+          <g key={item}>
+            <line
+              x1={props.xScale(item)}
+              y1={0}
+              x2={props.xScale(item)}
+              y2={props.tickMarkLength}
+              stroke="black"
+            />
+            <text
+              x={props.xScale(item)}
+              y={props.tickMarkLength + props.tickTextSpace}
+              textAnchor="middle"
+              dominantBaseline="hanging"
+            >
+              {item}
+            </text>
+          </g>
+        );
+      })}
+    </g>
+  );
+}
+
+function YAxis(props) {
+  return (
+    <g transform={`translate(${props.marginX} ${props.marginY})`}>
+      <line x1={0} y1={0} x2={0} y2={props.contentHeight} stroke="black" />
+      {props.yTicks.map((item) => {
+        return (
+          <g key={item}>
+            <line
+              x1={0}
+              y1={props.yScale(item)}
+              x2={-props.tickMarkLength}
+              y2={props.yScale(item)}
+              stroke="black"
+            />
+            <text
+              x={-props.tickMarkLength - props.tickTextSpace}
+              y={props.yScale(item)}
+              textAnchor="end"
+              dominantBaseline="central"
+            >
+              {item}
+            </text>
+          </g>
+        );
+      })}
+    </g>
+  );
+}
+
+function Legend(props) {
+  return (
+    <g
+      transform={`translate(${
+        props.contentWidth + (props.marginX + props.legendMargin)
+      } ${props.marginY})`}
+    >
+      {props.species.map((item, index) => {
+        return (
+          <g
+            key={item}
+            opacity={props.shows[index] === 1 ? 1 : 0.5}
+            onClick={() => {
+              props.setShows(
+                props.shows.map((show, i) => {
+                  return i === index ? show * -1 : show;
+                })
+              );
+            }}
+            style={{ cursor: "pointer" }}
+          >
+            <rect
+              x={0}
+              y={index * props.legendRectmargin}
+              width={props.legendRectSize}
+              height={props.legendRectSize}
+              fill={props.col(item)}
+            />
+            <text
+              x={props.legendRectSize + props.legendTextMargin}
+              y={index * props.legendRectmargin + props.legendRectSize / 2}
+              textAnchor="start"
+              dominantBaseline="middle"
+            >
+              {item}
+            </text>
+          </g>
         );
       })}
     </g>
