@@ -149,17 +149,19 @@ export default function Chart(props) {
     <div>
       <svg viewBox={`0 0 ${width} ${height}`}>
         <Content
-          data={data}
-          species={species}
-          shows={shows}
-          marginX={marginX}
-          marginY={marginY}
-          xScale={xScale}
-          yScale={yScale}
-          xProperty={xProperty}
-          yProperty={yProperty}
-          circleSize={circleSize}
-          col={col}
+          obj={{
+            data,
+            species,
+            shows,
+            marginX,
+            marginY,
+            xScale,
+            yScale,
+            xProperty,
+            yProperty,
+            circleSize,
+            col,
+          }}
         />
         <XAxis />
         <YAxis />
@@ -170,39 +172,29 @@ export default function Chart(props) {
 }
 
 function Content(props) {
-  const {
-    data,
-    species,
-    shows,
-    marginX,
-    marginY,
-    xScale,
-    yScale,
-    xProperty,
-    yProperty,
-    circleSize,
-    col,
-  } = props;
+  const o = props.obj;
   return (
-    <g transform={`translate(${marginX} ${marginY})`}>
-      {data.map((item, index) => {
-        const dore = species
-          .map((i) => {
-            return i === item.species;
-          })
-          .findIndex((element) => element === true);
+    <g transform={`translate(${o.marginX} ${o.marginY})`}>
+      {o.data.map((item, index) => {
+        const isShow =
+          o.shows[
+            o.species.findIndex((i) => {
+              return i === item.species;
+            })
+          ];
         return (
           <circle
             key={index}
-            //cx={xScale(item[xProperty])}
-            //cy={yScale(item[yProperty])}
-            transform={`translate(${xScale(item[xProperty])}, ${yScale(
-              item[yProperty]
+            transform={`translate(${o.xScale(item[o.xProperty])}, ${o.yScale(
+              item[o.yProperty]
             )})`}
-            r={circleSize}
-            fill={col(item.species)}
-            style={{ transition: "transform 0.5s" }}
-            opacity={shows[dore] === 1 ? 1 : 0}
+            r={o.circleSize}
+            fill={o.col(item.species)}
+            opacity={isShow === 1 ? 1 : 0}
+            style={{
+              transitionProperty: "transform, opacity",
+              transitionDuration: "0.5s, 0.5s",
+            }}
           />
         );
       })}
