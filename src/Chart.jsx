@@ -215,7 +215,7 @@ function Legend(props) {
                 })
               );
             }}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: "pointer", transition: "opacity 0.5s" }}
           >
             <rect
               x={0}
