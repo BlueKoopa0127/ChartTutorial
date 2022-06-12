@@ -101,16 +101,18 @@ export default function Chart(props) {
             legendTextMargin,
           }}
         />
-        {/*<ShowCoordinate
-          {...{
-            marginX,
-            marginY,
-            showCoordinate,
-            xScale,
-            yScale,
-            circleSize,
-          }}
-        />*/}
+        {
+          <ShowCoordinate
+            {...{
+              marginX,
+              marginY,
+              showCoordinate,
+              xScale,
+              yScale,
+              circleSize,
+            }}
+          />
+        }
       </svg>
     </div>
   );
@@ -138,15 +140,16 @@ function Content(props) {
               fill={props.col(item.species)}
               opacity={isShow === 1 ? 1 : 0}
               style={{
-                //cursor: "pointer",
                 transitionProperty: "transform, opacity",
                 transitionDuration: "0.5s, 0.5s",
               }}
               onMouseOver={() => {
-                props.setShowCoordinate({
-                  x: item[props.xProperty],
-                  y: item[props.yProperty],
-                });
+                if (isShow === 1) {
+                  props.setShowCoordinate({
+                    x: item[props.xProperty],
+                    y: item[props.yProperty],
+                  });
+                }
                 /*console.log(
                   `(${item[props.xProperty]}, ${item[props.yProperty]})`
                 );*/
@@ -170,14 +173,25 @@ function ShowCoordinate(props) {
     return <div></div>;
   }
 
+  const x = props.xScale(props.showCoordinate.x),
+    y = props.yScale(props.showCoordinate.y) - props.circleSize * 1.5,
+    w = 75,
+    h = 30;
+
   return (
     <g transform={`translate(${props.marginX}, ${props.marginY})`}>
+      <rect
+        transform={`translate(${x - w / 2}, ${y - h})`}
+        width={w}
+        height={h}
+        fill="gray"
+        opacity={0.9}
+      />
       <text
-        transform={`translate(${props.xScale(props.showCoordinate.x)}, ${
-          props.yScale(props.showCoordinate.y) - props.circleSize * 2
-        })`}
+        transform={`translate(${x}, ${y - props.circleSize * 2})`}
         textAnchor="middle"
         dominantBaseline="auto"
+        fill="white"
       >{`(${props.showCoordinate.x}, ${props.showCoordinate.y})`}</text>
     </g>
   );
@@ -190,7 +204,7 @@ function XAxis(props) {
         props.contentHeight + props.marginY
       })`}
     >
-      <line x1={0} y1={0} x2={props.contentWidth} y2={0} stroke="black" />
+      <line x1={0} y1={0} x2={props.contentWidth} y2={0} stroke="gray" />
       {props.xTicks.map((item) => {
         return (
           <g key={item}>
@@ -199,7 +213,7 @@ function XAxis(props) {
               y1={0}
               x2={props.xScale(item)}
               y2={props.tickMarkLength}
-              stroke="black"
+              stroke="gray"
             />
             <text
               x={props.xScale(item)}
@@ -219,7 +233,7 @@ function XAxis(props) {
 function YAxis(props) {
   return (
     <g transform={`translate(${props.marginX} ${props.marginY})`}>
-      <line x1={0} y1={0} x2={0} y2={props.contentHeight} stroke="black" />
+      <line x1={0} y1={0} x2={0} y2={props.contentHeight} stroke="gray" />
       {props.yTicks.map((item) => {
         return (
           <g key={item}>
@@ -228,7 +242,7 @@ function YAxis(props) {
               y1={props.yScale(item)}
               x2={-props.tickMarkLength}
               y2={props.yScale(item)}
-              stroke="black"
+              stroke="gray"
             />
             <text
               x={-props.tickMarkLength - props.tickTextSpace}
