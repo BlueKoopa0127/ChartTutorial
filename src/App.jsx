@@ -27,7 +27,7 @@ export default function App() {
 
   return (
     <div style={{ backgroundColor: "white" }}>
-      <Title titleName="Title" />
+      <Title titleName="Scatter Plot of Iris Dataset" />
 
       <section className="section">
         <div className="container is-max-desktop">
