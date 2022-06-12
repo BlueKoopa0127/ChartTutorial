@@ -129,39 +129,36 @@ function Content(props) {
             })
           ];
         return (
-          <g
+          <circle
             key={index}
             transform={`translate(${props.xScale(
               item[props.xProperty]
             )}, ${props.yScale(item[props.yProperty])})`}
-          >
-            <circle
-              r={props.circleSize}
-              fill={props.col(item.species)}
-              opacity={isShow === 1 ? 1 : 0}
-              style={{
-                transitionProperty: "transform, opacity",
-                transitionDuration: "0.5s, 0.5s",
-              }}
-              onMouseOver={() => {
-                if (isShow === 1) {
-                  props.setShowCoordinate({
-                    x: item[props.xProperty],
-                    y: item[props.yProperty],
-                  });
-                }
-                /*console.log(
-                  `(${item[props.xProperty]}, ${item[props.yProperty]})`
-                );*/
-              }}
-              onMouseLeave={() => {
-                props.setShowCoordinate(null);
-                /*console.log(
-                  `Leave:(${item[props.xProperty]}, ${item[props.yProperty]})`
-                );*/
-              }}
-            />
-          </g>
+            r={props.circleSize}
+            fill={props.col(item.species)}
+            opacity={isShow === 1 ? 1 : 0}
+            style={{
+              transitionProperty: "transform, opacity",
+              transitionDuration: "0.5s, 0.5s",
+            }}
+            onMouseOver={() => {
+              if (isShow === 1) {
+                props.setShowCoordinate({
+                  x: item[props.xProperty],
+                  y: item[props.yProperty],
+                });
+              }
+              /*console.log(
+                `(${item[props.xProperty]}, ${item[props.yProperty]})`
+              );*/
+            }}
+            onMouseLeave={() => {
+              props.setShowCoordinate(null);
+              /*console.log(
+                `Leave:(${item[props.xProperty]}, ${item[props.yProperty]})`
+              );*/
+            }}
+          />
         );
       })}
     </g>
