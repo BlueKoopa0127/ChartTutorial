@@ -10,7 +10,7 @@ export default function Chart(props) {
     svgWidth: width,
     svgHeight: height,
   } = props;
-  const marginX = 50,
+  const marginX = 60,
     marginY = 50,
     circleSize = 5,
     tickMarkLength = 10,
@@ -65,6 +65,7 @@ export default function Chart(props) {
         />
         <XAxis
           {...{
+            xProperty,
             marginX,
             marginY,
             contentWidth,
@@ -77,6 +78,7 @@ export default function Chart(props) {
         />
         <YAxis
           {...{
+            yProperty,
             marginX,
             marginY,
             contentHeight,
@@ -202,6 +204,14 @@ function XAxis(props) {
       })`}
     >
       <line x1={0} y1={0} x2={props.contentWidth} y2={0} stroke="gray" />
+      <text
+        x={props.contentWidth / 2}
+        y={props.tickMarkLength + props.tickTextSpace + 20}
+        textAnchor="middle"
+        dominantBaseline="hanging"
+      >
+        {props.xProperty}
+      </text>
       {props.xTicks.map((item) => {
         return (
           <g key={item}>
@@ -228,9 +238,20 @@ function XAxis(props) {
 }
 
 function YAxis(props) {
+  const x = -props.tickMarkLength - props.tickTextSpace - 40,
+    y = props.contentHeight / 2;
   return (
     <g transform={`translate(${props.marginX} ${props.marginY})`}>
       <line x1={0} y1={0} x2={0} y2={props.contentHeight} stroke="gray" />
+      <text
+        x={x}
+        y={y}
+        transform={`rotate(-90, ${x}, ${y})`}
+        textAnchor="middle"
+        dominantBaseline="central"
+      >
+        {props.yProperty}
+      </text>
       {props.yTicks.map((item) => {
         return (
           <g key={item}>
