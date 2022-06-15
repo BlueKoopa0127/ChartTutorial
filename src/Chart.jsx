@@ -47,22 +47,6 @@ export default function Chart(props) {
   return (
     <div>
       <svg viewBox={`0 0 ${width} ${height}`}>
-        <Content
-          {...{
-            data,
-            species,
-            shows,
-            marginX,
-            marginY,
-            xScale,
-            yScale,
-            xProperty,
-            yProperty,
-            circleSize,
-            col,
-            setShowCoordinate,
-          }}
-        />
         <XAxis
           {...{
             xProperty,
@@ -86,6 +70,22 @@ export default function Chart(props) {
             yScale,
             tickMarkLength,
             tickTextSpace,
+          }}
+        />
+        <Content
+          {...{
+            data,
+            species,
+            shows,
+            marginX,
+            marginY,
+            xScale,
+            yScale,
+            xProperty,
+            yProperty,
+            circleSize,
+            col,
+            setShowCoordinate,
           }}
         />
         <Legend
