@@ -3,7 +3,7 @@ import "bulma/css/bulma.css";
 export default function Forms(props) {
   return (
     <div>
-      <form>
+      <form className="columns">
         <Form
           labelName="x property"
           keys={props.keys}
@@ -23,10 +23,10 @@ export default function Forms(props) {
 
 function Form(props) {
   return (
-    <div className="field">
+    <div className="field column">
       <label className="label">{props.labelName}</label>
       <div className="control">
-        <div className="select is-fullwidth">
+        <div className="select is-fullwidth is-primary is-medium">
           <Select
             callback={props.setProerty}
             keys={props.keys}

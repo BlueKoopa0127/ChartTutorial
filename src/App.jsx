@@ -31,6 +31,9 @@ export default function App() {
 
       <section className="section">
         <div className="container is-max-desktop">
+          <a href={"https://assets.codepen.io/2004014/iris.json"}>
+            Dataset used
+          </a>
           <Forms
             {...{
               keys,
@@ -72,7 +75,7 @@ function Loading() {
 
 function Title(props) {
   return (
-    <section className="hero is-info">
+    <section className="hero is-light">
       <div className="hero-body">
         <div className="container is-max-desktop">
           <p className="title">{props.titleName}</p>

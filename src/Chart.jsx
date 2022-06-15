@@ -11,7 +11,7 @@ export default function Chart(props) {
     svgHeight: height,
   } = props;
   const marginX = 60,
-    marginY = 50,
+    marginY = 60,
     circleSize = 5,
     tickMarkLength = 10,
     tickTextSpace = 5,
@@ -185,6 +185,8 @@ function ShowCoordinate(props) {
         height={h}
         fill="gray"
         opacity={0.9}
+        rx="10"
+        ry="10"
       />
       <text
         transform={`translate(${x}, ${y - props.circleSize * 2})`}
